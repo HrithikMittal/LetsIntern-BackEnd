@@ -1,4 +1,6 @@
 var mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+
 var TestSchema = mongoose.Schema({
     test_name:{
         type:String,
