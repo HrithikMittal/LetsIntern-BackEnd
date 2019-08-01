@@ -7,7 +7,7 @@ const QuestionSchema = mongoose.Schema({
   options: [
     {
       type: String,
-      isanswer: Boolean
+      require: true
     }
   ]
 });

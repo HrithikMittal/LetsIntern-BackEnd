@@ -22,22 +22,42 @@ route.post("/question-mcq", (req, res) => {
   var option_mcq = {};
   option_mcq.optionvalue = req.body.optionvalue;
   option_mcq.answer = req.body.answer;
+  console.log(option_mcq);
 
-  Question.findOne({ _id: id })
-    .then(question => {
-      question["options"].push(option_mcq);
-      question
-        .save()
-        .then(value => {
-          res.send(value);
-        })
-        .catch(err => {
-          console.log("Error is ", err.message);
-        });
-    })
-    .catch(err => {
-      console.log(err);
-    });
+  var objFriends = { fname: "fname", lname: "lname", surname: "surname" };
+
+  Question.findOneAndUpdate(
+    { _id: req.body.id },
+    { $push: { options: objFriends } },
+    function(error, success) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log(success);
+      }
+    }
+  );
+
+  // Question.findOne({ _id: id })
+  //   .then(question => {
+  // Question.findOneAndUpdate(
+  //   { _id: id },
+  //   { $push: { options: option_mcq } },
+  //   done
+  // )
+  //   // question["options"].push(option_mcq);
+  //   // question
+  //   // .save()
+  //   .then(value => {
+  //     res.send(value);
+  //   })
+  //   .catch(err => {
+  //     console.log("Error is ", err.message);
+  //   });
+  // })
+  // .catch(err => {
+  // console.log(err);
+  // });
 });
 
 route.get("/", (req, res) => {
