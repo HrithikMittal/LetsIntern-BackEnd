@@ -9,7 +9,7 @@ route.post("/signup", async (req, res) => {
     name: req.body.name,
     password: req.body.password
   });
-  User.findOne({ name: NewUser.name })
+  await User.findOne({ name: NewUser.name })
     .then(async person => {
       if (!person) {
         await bcrypt.genSalt(saltRounds, async (err, salt) => {
@@ -59,37 +59,32 @@ route.post("/login", async (req, res) => {
     });
 });
 
-
-route.post('/test-upload',(req,res)=>{
+route.post("/testupload", async (req, res) => {
   var id = req.body.id;
   var series = {};
   series.test_name = req.body.test_name;
   series.test_score = req.body.test_score;
   series.max_score = req.body.max_score;
 
-  User.findOne({_id:id})
-    .then(person => {
-      if(person){
-        person["record"].push(series)
-        person
+  await User.findOne({ _id: id })
+    .then(async person => {
+      if (person) {
+        person["record"].push(series);
+        await person
           .save()
           .then(value => {
             res.send(value);
           })
-          .catch(err =>
-            {
-              console.log('Error is ',err.message);
-            }
-          )
-      }
-      else{
+          .catch(err => {
+            console.log("Error is ", err.message);
+          });
+      } else {
         res.send(`This person doesn't exists`);
       }
     })
-    .catch(err=>{
-      console.log('Error is ',err.message);
-    })
+    .catch(err => {
+      console.log("Error is ", err.message);
+    });
 });
-
 
 module.exports = route;
