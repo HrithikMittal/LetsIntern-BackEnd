@@ -6,8 +6,14 @@ const QuestionSchema = mongoose.Schema({
   },
   options: [
     {
-      type: String,
-      require: true
+      optionvalue: {
+        type: String,
+        require: true
+      },
+      answer: {
+        type: String,
+        require: true
+      }
     }
   ]
 });
