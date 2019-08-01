@@ -3,12 +3,12 @@ var route = express.Router();
 
 var Question = require("../models/Question");
 
-route.post("/question-post", (req, res) => {
+route.post("/question-post", async (req, res) => {
   var NewQuestion = new Question({
     question: req.body.question
   });
 
-  NewQuestion.save()
+  await NewQuestion.save()
     .then(ques => {
       res.send(ques);
     })
@@ -17,23 +17,27 @@ route.post("/question-post", (req, res) => {
     });
 });
 
-route.post("/question-mcq", (req, res) => {
+route.post("/question-mcq", async (req, res) => {
   var id = req.body.id;
   var option_mcq = {};
   option_mcq.optionvalue = req.body.optionvalue;
   option_mcq.answer = req.body.answer;
-  Question.findOne({ _id: id })
-    .then(question => {
+  await Question.findOne({ _id: id })
+    .then(async question => {
       // Question.findOneAndUpdate({ _id: id }, { $push: { options: option_mcq } })
-      question["options"].push(option_mcq);
-      question
-        .save()
-        .then(value => {
-          res.send(value);
-        })
-        .catch(err => {
-          console.log("Error is ", err.message);
-        });
+      if (question) {
+        question["options"].push(option_mcq);
+        await question
+          .save()
+          .then(value => {
+            res.send(value);
+          })
+          .catch(err => {
+            console.log("Error is ", err.message);
+          });
+      } else {
+        res.send(`This is question is not existing in the Database`);
+      }
     })
     .catch(err => {
       console.log(err);
