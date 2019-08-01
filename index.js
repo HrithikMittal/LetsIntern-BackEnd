@@ -2,8 +2,10 @@ var mongoose = require("mongoose");
 var express = require("express");
 var bodyparser = require("body-parser");
 var app = express();
+
 var User = require("./routes/User");
 var Question = require("./routes/Question");
+var Test = require("./routes/test");
 
 mongoose
   .connect("mongodb://localhost:27017/quiz")
