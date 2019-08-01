@@ -23,11 +23,18 @@ app.get("/", (req, res) => {
 });
 
 app.post("/user/signup", (req, res) => {
-  var NewUser = User({
+  var NewUser = new User({
     name: req.body.name,
     password: req.body.password
   });
-  NewUser.save();
+  console.log(NewUser.name);
+  NewUser.save()
+    .then(person => {
+      res.send(person);
+    })
+    .catch(err => {
+      console.log("Error is ", err.message);
+    });
 });
 
 app.listen(port, () => {
