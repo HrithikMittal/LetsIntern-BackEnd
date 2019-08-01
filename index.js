@@ -21,6 +21,7 @@ const port = process.env.PORT || 3000;
 
 app.use("/question", Question);
 app.use("/user", User);
+app.use("/test",Test);
 
 app.listen(port, () => {
   console.log(`Servering is listening on PORT ${port}`);
