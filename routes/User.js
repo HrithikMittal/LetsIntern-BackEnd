@@ -59,4 +59,37 @@ route.post("/login", async (req, res) => {
     });
 });
 
+
+route.post('/test-upload',(req,res)=>{
+  var id = req.body.id;
+  var series = {};
+  series.test_name = req.body.test_name;
+  series.test_score = req.body.test_score;
+  series.max_score = req.body.max_score;
+
+  User.findOne({_id:id})
+    .then(person => {
+      if(person){
+        person["record"].push(series)
+        person
+          .save()
+          .then(value => {
+            res.send(value);
+          })
+          .catch(err =>
+            {
+              console.log('Error is ',err.message);
+            }
+          )
+      }
+      else{
+        res.send(`This person doesn't exists`);
+      }
+    })
+    .catch(err=>{
+      console.log('Error is ',err.message);
+    })
+});
+
+
 module.exports = route;
