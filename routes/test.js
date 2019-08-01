@@ -27,7 +27,7 @@ route.post("/test-question", async (req, res) => {
   await Test.findOne({ _id: id })
     .then(async result => {
       if (result) {
-        result["question"].push(question);
+        result["questions"].push(question);
         await result
           .save()
           .then(value => {
