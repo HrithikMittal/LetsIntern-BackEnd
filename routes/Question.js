@@ -44,6 +44,23 @@ route.post("/question-mcq", async (req, res) => {
     });
 });
 
+
+route.get('/question-all',async (req,res)=>{
+  await Question.find()
+  .then(async (question)=>{
+    if(question){
+      res.send(question);
+    }
+    else{
+      res.send('There is no qustion please contact Admin');
+    }
+  })
+  .catch(err=>{
+    console.log('Error is ',err.message);
+  })
+});
+
+
 route.get("/", (req, res) => {
   res.send("Question is here...");
 });
