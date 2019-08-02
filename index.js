@@ -6,6 +6,7 @@ var app = express();
 var User = require("./routes/User");
 var Question = require("./routes/Question");
 var Test = require("./routes/test");
+var Internship = require("./routes/Internship");
 
 mongoose
   .connect("mongodb://localhost:27017/quiz")
@@ -23,7 +24,8 @@ const port = process.env.PORT || 3000;
 
 app.use("/question", Question);
 app.use("/user", User);
-app.use("/test",Test);
+app.use("/test", Test);
+app.use("/intern", Internship);
 
 app.listen(port, () => {
   console.log(`Servering is listening on PORT ${port}`);
