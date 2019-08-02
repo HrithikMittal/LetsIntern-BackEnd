@@ -46,32 +46,32 @@ route.post("/test-question", async (req, res) => {
     });
 });
 
-route.get('/test-all',async(req,res)=>{
-    await Test.find()
+route.get('/test-get',async(req,res)=>{
+    var id=req.body.id;
+    await Test.findOne({_id:id})
       .then(async tests=>{
-          let questionSet = [];
-          for (var i =0 ;i<(tests[0].questions).length;i++)
+          var questionSet = [];
+          for (var i =0 ;i<(tests.questions).length;i++)
           {
-            var newid = (tests[0].questions)[0].questionId
+            var newid = (tests.questions)[0].questionId
             await Question.findOne({_id:newid})
-            .then(ques => {
-              questionSet.push(ques);
+            .then(async ques => {
+              await questionSet.push(ques);
             })
             .catch(err => {
               console.log('Error is ',err.message);
             })
           }
-          console.log(questionSet);
-          res.send(tests);
+          res.send(questionSet);
+          
       })
       .catch(err=>{
           console.log("Error is ",err.message);
     });
 });
 
-route.get('/test-get',async(req,res)=>{
-  var id=req.body.id;
-  await Test.findOne({_id:id})
+route.get('/test-all',async(req,res)=>{
+  await Test.find()
     .then(test=>{
        res.send(test);
   })
