@@ -45,7 +45,7 @@ route.post("/test-question", async (req, res) => {
     });
 });
 
-route.get('/test-get',async(req,res)=>{
+route.get('/test-all',async(req,res)=>{
     await Test.find()
       .then(tests=>{
           res.send(tests);
@@ -55,6 +55,17 @@ route.get('/test-get',async(req,res)=>{
     });
 });
 
+route.get('/test-get',async(req,res)=>{
+  var id=req.body.id;
+  await Test.findOne({_id:id})
+    .then(test=>{
+       res.send(test);
+  })
+    .catch(err=>{
+       console.log('Error is', err.message);
+  })
+});  
+  
 route.get("/", (req, res) => {
   res.send("Hi I am test");
 });
