@@ -1,5 +1,7 @@
 var mongoose = require("mongoose");
-var StudentSchema = mongoose.Schema({
+var Schema = mongoose.Schema;
+
+var CompanySchema = mongoose.Schema({
   name: {
     type: String,
     require: true
@@ -8,38 +10,16 @@ var StudentSchema = mongoose.Schema({
     type: String,
     require: true
   },
-  cv: {
-    type: String
+  history: {
+    type: String,
+    require: true
   },
-  about: {
-    type: String
-  },
-  social: {
-    github: {
-      type: String
-    },
-    linkdin: {
-      type: String
-    },
-    medium: {
-      type: String
-    },
-    other: {
-      type: String
+  Internship: {
+    InternshipId: {
+      type: Schema.Types.ObjectId,
+      ref: "Internship"
     }
-  },
-  qualification: [
-    {
-      degree: { type: String },
-      marks: { type: String }
-    }
-  ],
-  expert: [
-    {
-      skill: { type: String },
-      marks: { type: String }
-    }
-  ]
+  }
 });
 
-module.exports = Student = mongoose.model("Student", StudentSchema);
+module.exports = Company = mongoose.model("Company", CompanySchema);
