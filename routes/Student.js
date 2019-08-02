@@ -125,6 +125,34 @@ route.post("/qualificationupload", async (req, res) => {
     });
 });
 
+route.post("/expertupload", async (req, res) => {
+    var id = req.body.id;
+    var expert = {};
+    expert.skill = req.body.skill;
+    expert.marks = req.body.marks;
+
+    await Student.findOne({ _id: id })
+        .then(async person => {
+            if (person) {
+                person["expert"].push(expert);
+                await person
+                    .save()
+                    .then(value => {
+                        res.send(value);
+                    })
+                    .catch(err => {
+                        console.log("Error is ", err.message);
+                    });
+            } else {
+                res.send("Theis person doesn't exists");
+            }
+        })
+        .catch(err => {
+            console.log("Error is ", err.message);
+        });
+});
+
+
 router.post;
 
 module.exports = router;
