@@ -46,40 +46,38 @@ route.post("/test-question", async (req, res) => {
     });
 });
 
-route.get('/test-get',async(req,res)=>{
-    var id=req.body.id;
-    await Test.findOne({_id:id})
-      .then(async tests=>{
-          var questionSet = [];
-          for (var i =0 ;i<(tests.questions).length;i++)
-          {
-            var newid = (tests.questions)[0].questionId
-            await Question.findOne({_id:newid})
-            .then(async ques => {
-              await questionSet.push(ques);
-            })
-            .catch(err => {
-              console.log('Error is ',err.message);
-            })
-          }
-          res.send(questionSet);
-          
-      })
-      .catch(err=>{
-          console.log("Error is ",err.message);
+route.get("/test-get", async (req, res) => {
+  var id = req.body.id;
+  await Test.findOne({ _id: id })
+    .then(async tests => {
+      var questionSet = [];
+      for (var i = 0; i < tests.questions.length; i++) {
+        var newid = tests.questions[i].questionId;
+        await Question.findOne({ _id: newid })
+          .then(async ques => {
+            await questionSet.push(ques);
+          })
+          .catch(err => {
+            console.log("Error is ", err.message);
+          });
+      }
+      res.send(questionSet);
+    })
+    .catch(err => {
+      console.log("Error is ", err.message);
     });
 });
 
-route.get('/test-all',async(req,res)=>{
+route.get("/test-all", async (req, res) => {
   await Test.find()
-    .then(test=>{
-       res.send(test);
-  })
-    .catch(err=>{
-       console.log('Error is', err.message);
-  })
-});  
-  
+    .then(test => {
+      res.send(test);
+    })
+    .catch(err => {
+      console.log("Error is", err.message);
+    });
+});
+
 route.get("/", (req, res) => {
   res.send("Hi I am test");
 });

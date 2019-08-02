@@ -2,6 +2,7 @@ var express = require("express");
 var router = express.Router();
 
 var Internship = require("../models/Internship");
+var Student = require("../models/Student");
 
 router.get("/", (req, res) => {
   res.send(`This is the Internship Routes`);
@@ -47,12 +48,12 @@ router.get("/internship-get", async (req, res) => {
 router.post("/internship-apply", async (req, res) => {
   var internshipId = req.body.internshipId;
   var studentId = req.body.studentId;
-  var student = {};
-  student.studentId = studentId;
+  var client = {};
+  client.studentId = studentId;
   await Internship.findOne({ _id: internshipId })
     .then(async intern => {
       if (intern) {
-        intern["students"].push(student);
+        intern["student"].push(client);
         await intern
           .save()
           .then(value => {
@@ -67,6 +68,31 @@ router.post("/internship-apply", async (req, res) => {
           });
       } else {
         res.send("this Internship doesn't exists");
+      }
+    })
+    .catch(err => {
+      console.log("Error is ", err.message);
+    });
+});
+
+router.get("/internship-apply-student", async (req, res) => {
+  var internshipId = req.body.internshipId;
+  await Internship.findOne({ id: internshipId })
+    .then(async internship => {
+      if (intership) {
+        var student = [];
+        for (var i = 0; i < internship.student.length; i++) {
+          var newId = internship.student[i].studentId;
+          await Student.findOne({ _id: newId })
+            .then(async stud => {
+              await student.push(stud);
+            })
+            .catch(err => {
+              console.log("Error is ", err.message);
+            });
+        }
+      } else {
+        res.send(`This is internship doesn't found`);
       }
     })
     .catch(err => {
