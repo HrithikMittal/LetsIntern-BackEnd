@@ -7,6 +7,7 @@ var User = require("./routes/User");
 var Question = require("./routes/Question");
 var Test = require("./routes/test");
 var Internship = require("./routes/Internship");
+var Company = require("./routes/Company");
 
 mongoose
   .connect("mongodb://localhost:27017/quiz")
@@ -26,6 +27,7 @@ app.use("/question", Question);
 app.use("/user", User);
 app.use("/test", Test);
 app.use("/intern", Internship);
+app.use("/company", Company);
 
 app.listen(port, () => {
   console.log(`Servering is listening on PORT ${port}`);

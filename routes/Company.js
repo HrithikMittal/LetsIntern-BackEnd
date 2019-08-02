@@ -45,4 +45,29 @@ router.post("/register", async (req, res) => {
     });
 });
 
+router.post("/login", async (req, res) => {
+  var member = {};
+  member.email = req.body.email;
+  member.password = req.body.password;
+  Company.findOne({ email: member.email })
+    .then(async comp => {
+      if (comp) {
+        await bcrypt.compare(member.password, comp.password, (err, result) => {
+          if (result) {
+            res.send("User is logged in successfully...");
+          } else if (err) {
+            console.log("Error is ", err.message);
+          } else {
+            res.send("Unauthorized Access:Wrong Password");
+          }
+        });
+      } else {
+        res.send("This is not registered");
+      }
+    })
+    .catch(err => {
+      console.log("Error is ", err.message);
+    });
+});
+
 modules.exports = router;
