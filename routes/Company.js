@@ -9,7 +9,7 @@ router.get("/", (req, res) => {
   res.send("this page is for the compny");
 });
 
-router.post("/register", async (req, res) => {
+router.post("/signup", async (req, res) => {
   var Newcompany = new Company();
   Newcompany.email = req.body.email;
   Newcompany.password = req.body.password;

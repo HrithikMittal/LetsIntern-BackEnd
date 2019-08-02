@@ -9,7 +9,7 @@ router.get("/", (req, res) => {
   res.send("this page is for the student");
 });
 
-router.post("/register", async (req, res) => {
+router.post("/signup", async (req, res) => {
   var Newstudent = new Student();
   Newstudent.email = req.body.email;
   Newstudent.password = req.body.password;
@@ -63,6 +63,61 @@ router.post("/login", async (req, res) => {
         });
       } else {
         res.send("This is not registered");
+      }
+    })
+    .catch(err => {
+      console.log("Error is ", err.message);
+    });
+});
+
+route.post("/testupload", async (req, res) => {
+  var id = req.body.id;
+  var series = {};
+  series.test_name = req.body.test_name;
+  series.test_score = req.body.test_score;
+  series.max_score = req.body.max_score;
+
+  await Student.findOne({ _id: id })
+    .then(async person => {
+      if (person) {
+        person["record"].push(series);
+        await person
+          .save()
+          .then(value => {
+            res.send(value);
+          })
+          .catch(err => {
+            console.log("Error is ", err.message);
+          });
+      } else {
+        res.send(`This person doesn't exists`);
+      }
+    })
+    .catch(err => {
+      console.log("Error is ", err.message);
+    });
+});
+
+route.post("/qualificationupload", async (req, res) => {
+  var id = req.body.id;
+  var qualification = {};
+  qualification.degree = req.body.degree;
+  qualification.marks = req.body.marks;
+
+  await Student.findOne({ _id: id })
+    .then(async person => {
+      if (person) {
+        person["qualification"].push(qualification);
+        await person
+          .save()
+          .then(value => {
+            res.send(value);
+          })
+          .catch(err => {
+            console.log("Error is ", err.message);
+          });
+      } else {
+        res.send("Theis person doesn't exists");
       }
     })
     .catch(err => {
