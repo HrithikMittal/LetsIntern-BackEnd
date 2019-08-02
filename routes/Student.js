@@ -153,6 +153,34 @@ route.post("/expertupload", async (req, res) => {
 });
 
 
-router.post;
+route.post("/socialupload", async (req, res) => {
+    var id = req.body.id;
+    var social = {};
+    social.github = req.body.github;
+    social.linkdin = req.body.linkdin;
+    social.medium = req.body.other;
+    social.other = req.body.other;
+
+    await Student.findOne({ _id: id })
+        .then(async person => {
+            if (person) {
+                person["social"] = social;
+                await person
+                    .save()
+                    .then(value => {
+                        res.send(value);
+                    })
+                    .catch(err => {
+                        console.log("Error is ", err.message);
+                    });
+            } else {
+                res.send("Theis person doesn't exists");
+            }
+        })
+        .catch(err => {
+            console.log("Error is ", err.message);
+        });
+});
+
 
 module.exports = router;
