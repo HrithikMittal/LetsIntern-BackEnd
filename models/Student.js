@@ -1,5 +1,13 @@
 var mongoose = require("mongoose");
 var StudentSchema = mongoose.Schema({
+  email: {
+    type: String,
+    require: true
+  },
+  password: {
+    type: String,
+    require: true
+  },
   name: {
     type: String,
     require: true
@@ -38,6 +46,22 @@ var StudentSchema = mongoose.Schema({
     {
       skill: { type: String },
       marks: { type: String }
+    }
+  ],
+  record: [
+    {
+      test_name: {
+        type: String,
+        require: true
+      },
+      test_score: {
+        type: String,
+        require: true
+      },
+      max_score: {
+        type: String,
+        require: true
+      }
     }
   ]
 });
