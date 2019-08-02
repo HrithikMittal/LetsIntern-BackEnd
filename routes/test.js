@@ -45,6 +45,16 @@ route.post("/test-question", async (req, res) => {
     });
 });
 
+route.get('/test-get',async(req,res)=>{
+    await Test.find()
+      .then(tests=>{
+          res.send(tests);
+      })
+      .catch(err=>{
+          console.log("Error is ',err.message);
+    });
+});
+
 route.get("/", (req, res) => {
   res.send("Hi I am test");
 });
