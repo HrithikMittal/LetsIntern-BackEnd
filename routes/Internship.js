@@ -9,7 +9,7 @@ router.get("/", (req, res) => {
 });
 
 router.post("/internship-post", async (req, res) => {
-  var NewInternship = Internship();
+  var NewInternship = new Internship();
   NewInternship.name = req.body.name;
   NewInternship.dateOfPosting = req.body.dateOfPosting;
   NewInternship.expiryDate = req.body.expiryDate;
