@@ -11,7 +11,7 @@ var Company = require("./routes/Company");
 var Student = require("./routes/Student");
 
 mongoose
-  .connect("mongodb://localhost:27017/quiz")
+  .connect("mongodb://localhost:27017/letsintern")
   .then(() => {
     console.log("Database is connected successfully...");
   })
