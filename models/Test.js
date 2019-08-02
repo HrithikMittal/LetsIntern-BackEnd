@@ -12,7 +12,7 @@ var TestSchema = mongoose.Schema({
   },
   questions: [
     {
-      question: {
+      questionId: {
         type: Schema.Types.ObjectId,
         ref: "Question"
       }

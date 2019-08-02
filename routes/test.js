@@ -2,6 +2,7 @@ var express = require("express");
 var route = express.Router();
 
 var Test = require("../models/Test");
+var Question = require("../models/Question");
 
 route.post("/test-create", async (req, res) => {
   var NewTest = new Test();
@@ -47,11 +48,24 @@ route.post("/test-question", async (req, res) => {
 
 route.get('/test-all',async(req,res)=>{
     await Test.find()
-      .then(tests=>{
+      .then(async tests=>{
+          let questionSet = [];
+          for (var i =0 ;i<(tests[0].questions).length;i++)
+          {
+            var newid = (tests[0].questions)[0].questionId
+            await Question.findOne({_id:newid})
+            .then(ques => {
+              questionSet.push(ques);
+            })
+            .catch(err => {
+              console.log('Error is ',err.message);
+            })
+          }
+          console.log(questionSet);
           res.send(tests);
       })
       .catch(err=>{
-          console.log("Error is ',err.message);
+          console.log("Error is ",err.message);
     });
 });
 
