@@ -182,5 +182,19 @@ route.post("/socialupload", async (req, res) => {
         });
 });
 
+router.get("/studentwithid", async(req, res) => {
+    var id = req.body.id;
+    await Student.findOne({ _id: id })
+        .then(student => {
+            if (student) {
+                res.send(student);
+            } else {
+                res.send("Company doesn't exists");
+            }
+        })
+        .catch(err => {
+            console.log("Error is ", err.message);
+        });
+});
 
 module.exports = router;

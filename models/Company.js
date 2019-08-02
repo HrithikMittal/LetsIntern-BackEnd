@@ -27,6 +27,20 @@ var CompanySchema = mongoose.Schema({
       type: Schema.Types.ObjectId,
       ref: "Internship"
     }
+  },
+  social: {
+    github: {
+      type: String
+    },
+    linkdin: {
+      type: String
+    },
+    medium: {
+      type: String
+    },
+    other: {
+      type: String
+    }
   }
 });
 
